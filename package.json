@@ -1,0 +1,17 @@
+{
+  "name": "createtransaction",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@terra-money/terra.js": "^3.0.11",
+    "dotenv": "^16.0.0",
+    "isomorphic-fetch": "^3.0.0"
+  }
+}
