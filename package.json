@@ -6,6 +6,7 @@
   "scripts": {
     "balance": "node src/checkbalances.js",
     "spend": "node src/spend.js",
+    "interval": "node src/countdowntospend.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

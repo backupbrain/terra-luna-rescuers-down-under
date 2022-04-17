@@ -28,7 +28,7 @@ const initializeLunaDaemon = (endpointUrl, chainId) => {
         URL: endpointUrl,
         // URL: 'https://blockdaemon-terra-lcd.api.bdnodes.net:1317',
         chainID: chainId,
-        gasPrices: { uluna: 0.015 }, // gasPricesCoins,
+        gasPrices: { uluna: 0.025 }, // gasPricesCoins,
         gasAdjustment: "1.4"
         // gas: 10000000,
     });
