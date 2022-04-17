@@ -17,7 +17,6 @@ const main = async () => {
     console.log('============= Starting balances =================')
     await getBalances(lunaDaemon, localPublicAddress)
     await getBalances(lunaDaemon, remotePublicAddress)
-    await sendLuna(lunaDaemon, senderWallet, remotePublicAddress, lunaSpendAmount)
     console.log('\n')
 }
 
