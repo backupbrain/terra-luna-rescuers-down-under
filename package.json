@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "run": "node src/index.js",
+    "balance": "node src/checkbalances.js",
+    "spend": "node src/spend.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

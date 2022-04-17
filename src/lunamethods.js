@@ -14,6 +14,7 @@ const endpoints = {
 }
 
 
+
 const getGasPriceCoins = async () => {
     // Fetch gas prices and convert to `Coin` format.
     const gasPricesResponse = await fetch('https://bombay-fcd.terra.dev/v1/txs/gas_prices')
@@ -86,46 +87,10 @@ const sendLuna = async (lunaDaemon, wallet, toAddress, amount) => {
     return broadcastResult
 }
 
-const main = async () => {
-    const startTime = Date.now()
-    console.log('============= Testing Luna =================')
-    const localPublicAddress = process.env.LOCAL_PUBLIC_ADDRESS
-    const remotePublicAddress = process.env.REMOTE_PUBILC_ADDRESS
-    const lunaSpendAmount = parseFloat(process.env.SPEND_AMOUNT)
-    const lunaDaemon = initializeLunaDaemon()
-    const senderWallet = await createLunaWallet(lunaDaemon)
-    console.log('\n')
-    console.log('============= Starting balances =================')
-    await getBalances(lunaDaemon, localPublicAddress)
-    await getBalances(lunaDaemon, remotePublicAddress)
-    await sendLuna(lunaDaemon, senderWallet, remotePublicAddress, lunaSpendAmount)
-    console.log('\n')
-    console.log('============= Resulting balances =================')
-    await getBalances(lunaDaemon, localPublicAddress)
-    await getBalances(lunaDaemon, remotePublicAddress)
-    console.log('============= Time =================')
-    const endTime = Date.now()
-    console.log(`Started at: ${startTime}`)
-    console.log(`Ended at: ${endTime}`)
-    console.log(`Total time: ${endTime - startTime} ms`)
-    console.log('\n\n\n')
+module.exports = {
+    endpoints,
+    initializeLunaDaemon,
+    createLunaWallet,
+    getBalances,
+    sendLuna
 }
-
-const runTransactions = async () => {
-    console.log('============= Testing Luna =================')
-    const localPublicAddress = process.env.LOCAL_PUBLIC_ADDRESS
-    const remotePublicAddress = process.env.REMOTE_PUBILC_ADDRESS
-    const lunaSpendAmount = parseFloat(process.env.SPEND_AMOUNT)
-    const lunaDaemon = initializeLunaDaemon()
-    const senderWallet = await createLunaWallet(lunaDaemon)
-    let i = 0
-    const eventTimerId = setInterval(async () => {
-        console.log(`---- index: ${i} ----`)
-        await sendLuna(lunaDaemon, senderWallet, remotePublicAddress, lunaSpendAmount)
-        i += 1
-    }, 200)
-    console.log('\n')
-}
-
-
-runTransactions()
