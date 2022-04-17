@@ -29,3 +29,9 @@ Feverishly trying to spend money
 ```console
 $ npm run spend
 ```
+
+Run spend loop script at a specific time
+
+```console
+$ npm run interval
+```
