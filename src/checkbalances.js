@@ -1,18 +1,25 @@
+require('dotenv').config()
 const {
+    lunaEndpoints,
+    lunaChainIds,
     getBalances,
-    sendLuna,
-    initializeLunaDaemon,
-    createLunaWallet,
+    initializeLunaDaemon
 } = require('./lunamethods')
 
 const main = async () => {
+    const lunaEndpointUrl = lunaEndpoints[process.env.LUNA_ENDPOINT_LOCATION]
+    if (!lunaEndpointUrl) {
+        throw Error('Invalid LUNA_ENDPOINT_LOCATION')
+    }
+    const lunaChainId = lunaChainIds[process.env.LUNA_CHAIN_TYPE]
+    if (!lunaEndpointUrl) {
+        throw Error('Invalid LUNA_ENDPOINT_LOCATION')
+    }
     const startTime = Date.now()
     console.log('============= Testing Luna =================')
     const localPublicAddress = process.env.LOCAL_PUBLIC_ADDRESS
     const remotePublicAddress = process.env.REMOTE_PUBILC_ADDRESS
-    const lunaSpendAmount = parseFloat(process.env.SPEND_AMOUNT)
-    const lunaDaemon = initializeLunaDaemon()
-    const senderWallet = await createLunaWallet(lunaDaemon)
+    const lunaDaemon = initializeLunaDaemon(lunaEndpointUrl, lunaChainId)
     console.log('\n')
     console.log('============= Starting balances =================')
     await getBalances(lunaDaemon, localPublicAddress)

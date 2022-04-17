@@ -1,19 +1,15 @@
-require('dotenv').config()
 const fetch = require('isomorphic-fetch')
-const { MsgSend, MnemonicKey, Coins, LCDClient } = require('@terra-money/terra.js')
+const { MsgSend, MnemonicKey, Coins, LCDClient, RawKey } = require('@terra-money/terra.js')
 
-const endpoints = {
-    'https://lcd.terra.money': 'columbus-5',
-    'https://terra.stakesystems.io': 'columbus-5',
-    'https://lcd.mcontrol.mi': 'columbus-5',
-    'https://terra-lcd.easy2stake.com': 'columbus-5',
-    'htttp://172.104.133.249': 'columbus-5',
-    'hhtps://blockdaemon-terra-lcd.api.bdnodes.net:1317': 'columbus-5',
-    // 'https://bombay-lcd.terra.dev/': 'bombay-12',
-    // 'https://bombay.stakesystems.io': 'bombay-12',
+const lunaEndpoints = {
+    'de': 'https://terra-lcd.easy2stake.com',
+    'us': 'https://blockdaemon-terra-lcd.api.bdnodes.net:1317'
 }
 
-
+const lunaChainIds = {
+    'main': 'columbus-5',
+    'test': 'bombay-12'
+}
 
 const getGasPriceCoins = async () => {
     // Fetch gas prices and convert to `Coin` format.
@@ -23,12 +19,15 @@ const getGasPriceCoins = async () => {
     return gasPricesCoins
 }
 
-const initializeLunaDaemon = () => {
+const initializeLunaDaemon = (endpointUrl, chainId) => {
     console.log('Initializing luna daemon')
+    console.log(`  Endpoint URL: ${endpointUrl}`)
+    console.log(`  Chain ID: ${chainId}`)
     // const gasPricesCoins = getGasPriceCoins();
     const lunaDaemon = new LCDClient({
-        URL: "https://terra-lcd.easy2stake.com",
-        chainID: "columbus-5",
+        URL: endpointUrl,
+        // URL: 'https://blockdaemon-terra-lcd.api.bdnodes.net:1317',
+        chainID: chainId,
         gasPrices: { uluna: 0.015 }, // gasPricesCoins,
         gasAdjustment: "1.4"
         // gas: 10000000,
@@ -36,14 +35,27 @@ const initializeLunaDaemon = () => {
     return lunaDaemon
 }
 
-const createLunaWallet = async (lunaDaemon) => {
+const createLunaWalletFromMnemonic = async (lunaDaemon, mnemonic) => {
     console.log(`Creating new wallet`)
     const mnemonicKey = new MnemonicKey({
-        mnemonic: process.env.MNEMONIC
+        mnemonic
     });
     const wallet = lunaDaemon.wallet(mnemonicKey);
     return wallet
 }
+
+const getKeyBytesFromRawKey = (rawKey) => {
+    const keyBytes = new Uint8Array(Buffer.from(rawKey, 'hex'))
+    return keyBytes
+}
+
+const createLunaWalletFromKey = async (lunaDaemon, keyString) => {
+    const keyBytes = getKeyBytesFromRawKey(keyString)
+    const privateKey = new RawKey(keyBytes)
+    const wallet = lunaDaemon.wallet(privateKey);
+    return wallet
+}
+
 
 const getBalances = async (lunaDaemon, address) => {
     console.log(`Getting balances for ${address}`)
@@ -88,9 +100,12 @@ const sendLuna = async (lunaDaemon, wallet, toAddress, amount) => {
 }
 
 module.exports = {
-    endpoints,
+    lunaEndpoints,
+    lunaChainIds,
     initializeLunaDaemon,
-    createLunaWallet,
+    getKeyBytesFromRawKey,
+    createLunaWalletFromMnemonic,
+    createLunaWalletFromKey,
     getBalances,
     sendLuna
 }
