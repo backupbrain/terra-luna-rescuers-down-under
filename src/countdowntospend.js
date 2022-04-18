@@ -46,12 +46,12 @@ const startSpendLoop = async (lunaDaemon, senderWallet) => {
     console.log(` End time: ${new Date().toLocaleString()}`);
 
     let attemptNumber = 0
-    const maxAttemps = 1 // 50 // about 30 seconds
-    const intervalTimerId = setInterval(async () => {
+    const maxAttempts = parseInt(process.env.MAX_ATTEMPTS)
+    const intervalTimerId = setInterval(() => {
         console.log(`---- Attempt number: ${attemptNumber} ----`)
-        await sendLuna(lunaDaemon, senderWallet, recipientPublicAddress, lunaSpendAmount)
+        sendLuna(lunaDaemon, senderWallet, recipientPublicAddress, lunaSpendAmount)
         attemptNumber += 1
-        if (attemptNumber >= maxAttemps) {
+        if (attemptNumber >= maxAttempts) {
             clearInterval(intervalTimerId)
             console.log('=========== Done trying ===========')
         }

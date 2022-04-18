@@ -94,9 +94,15 @@ const sendLuna = async (lunaDaemon, wallet, toAddress, amount) => {
     // console.log({ transaction })
     console.log(JSON.stringify(transaction, null, 2))
     console.log(`  Broadcasting transaction:`)
-    const broadcastResult = await lunaDaemon.tx.broadcast(transaction);
-    console.log({ broadcastResult })
-    return broadcastResult
+    try {
+        const broadcastResult = await lunaDaemon.tx.broadcast(transaction);
+        console.log({ broadcastResult })
+        return broadcastResult
+    } catch (error) {
+        console.log(`  Error broadcasting transaction:`)
+        console.log(error.response.data.message)
+        return
+    }
 }
 
 module.exports = {
