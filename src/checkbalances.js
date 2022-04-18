@@ -17,13 +17,13 @@ const main = async () => {
     }
     const startTime = Date.now()
     console.log('============= Testing Luna =================')
-    const localPublicAddress = process.env.LOCAL_PUBLIC_ADDRESS
-    const remotePublicAddress = process.env.REMOTE_PUBILC_ADDRESS
+    const senderPublicAddress = process.env.SENDER_PUBLIC_ADDRESS
+    const recipientPublicAddress = process.env.RECIPIENT_PUBILC_ADDRESS
     const lunaDaemon = initializeLunaDaemon(lunaEndpointUrl, lunaChainId)
     console.log('\n')
     console.log('============= Starting balances =================')
-    await getBalances(lunaDaemon, localPublicAddress)
-    await getBalances(lunaDaemon, remotePublicAddress)
+    await getBalances(lunaDaemon, senderPublicAddress)
+    await getBalances(lunaDaemon, recipientPublicAddress)
     console.log('\n')
 }
 

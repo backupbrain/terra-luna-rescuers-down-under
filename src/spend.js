@@ -23,7 +23,7 @@ const runTransactions = async () => {
         throw Error('Must provide either MNEMONIC or RAW_KEY in your .env file')
     }
     console.log('============= Testing Luna =================')
-    const remotePublicAddress = process.env.REMOTE_PUBILC_ADDRESS
+    const recipientAddress = process.env.RECIPIENT_PUBLIC_ADDRESS
     const lunaSpendAmount = parseFloat(process.env.SPEND_AMOUNT)
     const lunaDaemon = initializeLunaDaemon(lunaEndpointUrl, lunaChainId)
     let senderWallet = null
@@ -35,7 +35,7 @@ const runTransactions = async () => {
     let i = 0
     setInterval(async () => {
         console.log(`---- index: ${i} ----`)
-        await sendLuna(lunaDaemon, senderWallet, remotePublicAddress, lunaSpendAmount)
+        await sendLuna(lunaDaemon, senderWallet, recipientAddress, lunaSpendAmount)
         i += 1
     }, 200)
     console.log('\n')
