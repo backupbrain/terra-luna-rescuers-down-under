@@ -18,7 +18,7 @@ const main = async () => {
     const startTime = Date.now()
     console.log('============= Testing Luna =================')
     const senderPublicAddress = process.env.SENDER_PUBLIC_ADDRESS
-    const recipientPublicAddress = process.env.RECIPIENT_PUBILC_ADDRESS
+    const recipientPublicAddress = process.env.RECIPIENT_PUBLIC_ADDRESS
     const lunaDaemon = initializeLunaDaemon(lunaEndpointUrl, lunaChainId)
     console.log('\n')
     console.log('============= Starting balances =================')

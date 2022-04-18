@@ -38,7 +38,7 @@ const loadWallet = async (lunaDaemon) => {
 }
 
 const startSpendLoop = async (lunaDaemon, senderWallet) => {
-    const remotePublicAddress = process.env.REMOTE_PUBILC_ADDRESS
+    const recipientPublicAddress = process.env.RECIPIENT_PUBLIC_ADDRESS
     const lunaSpendAmount = parseFloat(process.env.SPEND_AMOUNT)
 
     console.log('---------- Time sensitive method ----------')
@@ -49,7 +49,7 @@ const startSpendLoop = async (lunaDaemon, senderWallet) => {
     const maxAttemps = 1 // 50 // about 30 seconds
     const intervalTimerId = setInterval(async () => {
         console.log(`---- Attempt number: ${attemptNumber} ----`)
-        await sendLuna(lunaDaemon, senderWallet, remotePublicAddress, lunaSpendAmount)
+        await sendLuna(lunaDaemon, senderWallet, recipientPublicAddress, lunaSpendAmount)
         attemptNumber += 1
         if (attemptNumber >= maxAttemps) {
             clearInterval(intervalTimerId)
