@@ -101,7 +101,7 @@ const executeMethodAtSpecificTime = (executionDateTime, lunaDaemon, senderWallet
 
 const main = async () => {
     // const now = new Date().getTime()
-    const executionTime = parseInt(process.env.EXECUTION_TIMESTAMP) * 1000
+    const executionTime = parseInt(process.env.EXECUTION_TIMESTAMP)
     if (isNaN(executionTime)) {
         throw Error('Must provide an EXECUTION_TIME unix timestamp in the .env file')
     }
