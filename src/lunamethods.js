@@ -69,37 +69,35 @@ const getBalances = async (lunaDaemon, address) => {
 }
 
 
-const sendLuna = async (lunaDaemon, wallet, toAddress, amount) => {
+const sendLuna = async (lunaDaemon, wallet, toAddress, amount, index) => {
     console.log(`Sending ${amount} to ${toAddress}`)
     const uLunaAmount = `${amount * 1000000}`
     console.log(`  uLunaAmount: ${uLunaAmount}, typeof: ${typeof uLunaAmount}`)
     console.log(`  Converting to uLuna: ${uLunaAmount}`)
-    console.log(`  Creating new MsgSend:`)
+    console.log(`  Creating new MsgSend for index ${index}:`)
     const msgSend = new MsgSend(
         wallet.key.accAddress,
         toAddress,
         { uluna: uLunaAmount }
     );
-    // console.log({ msgSend })
-    console.log(JSON.stringify(msgSend, null, 2))
+    console.log(`Created MsgSend for Index ${index}: ${JSON.stringify(msgSend, null, 2)}`)
     console.log(`  Creating new transaction:`)
     let transaction;
     try {
         transaction = await wallet.createAndSignTx({ msgs: [msgSend] });
     } catch (error) {
-        console.log(`  Error creating transaction:`)
+        console.log(`  Error creating transaction for index ${index}:`)
         console.log(error.response.data.message)
         return
     }
-    // console.log({ transaction })
-    console.log(JSON.stringify(transaction, null, 2))
+    console.log(`Created new Transaction for index ${index}: ${JSON.stringify(transaction, null, 2)}`)
     console.log(`  Broadcasting transaction:`)
     try {
         const broadcastResult = await lunaDaemon.tx.broadcast(transaction);
-        console.log({ broadcastResult })
+        console.log(`Broadcast result for index ${index}: ${ broadcastResult }`)
         return broadcastResult
     } catch (error) {
-        console.log(`  Error broadcasting transaction:`)
+        console.log(`  Error broadcasting transaction for index ${index}:`)
         console.log(error.response.data.message)
         return
     }

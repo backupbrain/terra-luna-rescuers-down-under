@@ -35,7 +35,7 @@ const runTransactions = async () => {
     let i = 0
     setInterval(async () => {
         console.log(`---- index: ${i} ----`)
-        await sendLuna(lunaDaemon, senderWallet, recipientAddress, lunaSpendAmount)
+        await sendLuna(lunaDaemon, senderWallet, recipientAddress, lunaSpendAmount, i)
         i += 1
     }, 200)
     console.log('\n')
