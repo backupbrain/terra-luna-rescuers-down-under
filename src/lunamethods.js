@@ -94,7 +94,7 @@ const sendLuna = async (lunaDaemon, wallet, toAddress, amount, index) => {
     console.log(`  Broadcasting transaction:`)
     try {
         const broadcastResult = await lunaDaemon.tx.broadcast(transaction);
-        console.log(`Broadcast result for index ${index}: ${ broadcastResult }`)
+        console.log(`Broadcast result for index ${index}: ${ JSON.stringify(broadcastResult, null, 2) }`)
         return broadcastResult
     } catch (error) {
         console.log(`  Error broadcasting transaction for index ${index}:`)
